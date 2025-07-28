@@ -1,0 +1,251 @@
+﻿<!-- SportsSphere.razor -->
+@page "/"
+@inject NavigationManager Navigation
+
+<!-- Importing Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+    /* Global styling for the entire page */
+    body {
+        font-family: 'Lato', sans-serif;
+        font-family: 'Poppins', sans-serif !important;
+        font-family: 'Roboto', sans-serif;
+        z-index: -1;
+        background-color: #ffffff;
+        opacity: 1;
+        background-image: repeating-radial-gradient(circle at 0 0, transparent 0, #ffffff 40px), repeating-linear-gradient(#d9ffbb55, #d9ffbb);
+    }
+
+    /* Styling for the active list-group-item */
+    .list-group-item.active {
+        background-color: #21D192;
+        color: #fff;
+        outline: none;
+    }
+
+        .list-group-item.active a {
+            color: #fff;
+            outline: none;
+        }
+
+    /* Styling for product cards with hover effect */
+    .card {
+        overflow: hidden;
+        transition: transform 0.3s ease-in-out;
+    }
+
+        .card img {
+            width: 100%;
+            height: auto;
+        }
+
+        .card:hover {
+            transform: scale(1.1);
+        }
+
+    /* Overlay styling for the welcome message */
+    .overlay {
+        position: relative;
+        width: 100%;
+        height: 300px; /* Set a suitable height for the overlay */
+        overflow: hidden;
+    }
+
+    .overlay {
+        position: relative;
+    }
+
+        .overlay::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.5); /* Adjust the alpha value for the desired level of opacity */
+            z-index: 1; /* Adjust the z-index to position the overlay above the image */
+        }
+
+        .overlay img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            z-index: 2; /* Ensure the image is above the overlay */
+        }
+
+        .overlay img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        .overlay h3 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #fff;
+            font-size: 2em;
+            text-align: center;
+        }
+
+    /* Styling for text color changes on hover */
+    .card:hover .card-title,
+    .card:hover .card-text {
+        color: #21D192;
+    }
+
+    .list-group-item a {
+        color: #21D192;
+        transition: color 0.3s ease;
+        text-decoration: none;
+        outline: none;
+    }
+
+    /* Change text color on hover */
+    .list-group-item:active a {
+        outline: none;
+    }
+
+    /* Remove outline color on and off hover */
+    .list-group-item:focus,
+    .list-group {
+        outline: none;
+    }
+
+    .header {
+        background-image: url("https://i.pinimg.com/originals/45/40/7f/45407f918f6561703b9bdfaeed300d8a.gif");
+        background-size: cover;
+        background-repeat: no-repeat;
+        color: #fff;
+        padding: 150px 0;
+        text-align: center;
+        width: 100%;
+        height: auto;
+        overflow: hidden;
+    }
+
+    .banner {
+        background-image: url("https://i.pinimg.com/736x/ea/d3/61/ead361053e42b75fa862c00466045548.jpg");
+        background-size: contain;
+        background-repeat: no-repeat;
+        color: #fff;
+        padding: 150px 0;
+        text-align: center;
+        width: 100%;
+        height: auto;
+        overflow: hidden;
+        border-radius: 15px;
+        transition: transform 0.3s ease-in-out; /* Add smooth transition on hover */
+    }
+
+        .banner:hover {
+            transform: scale(1.1); /* Increase the scale on hover */
+        }
+
+
+</style>
+
+<!-- Welcome Overlay Section -->
+<div class="header">
+    
+    <h3 style="color:#353535">Welcome to SportsSphere!</h3>
+</div>
+
+<!-- Main Content Container -->
+<div class="container">
+    <div class="row">
+        <!-- Category Navigation Section -->
+        <div class="col-md-3 my-5">
+            <h3 style="color:#21D192;">Categories</h3>
+            <ul class="list-group mb-2">
+                <a href="#" class="list-group-item @(selectedCategory == -1 ? "active" : "")" @onclick="() => ShowAllProducts()">All Products</a>
+            </ul>
+            <ul class="list-group mb-4">
+                <!-- Loop through categories and generate category links -->
+                @foreach (var category in categories)
+                {
+                    <li class="list-group-item @(selectedCategory == category.CategoryID ? "active" : "")">
+                        <a href="#" style="text-decoration:none" @onclick="() => SelectCategory(category.CategoryID)">@category.CategoryName</a>
+                    </li>
+                }
+            </ul>
+            
+            <div >
+                <a href="https://www.instagram.com/webloopvolleyballclub055/" target="_blank" rel="noopener noreferrer">
+                    <div class="banner">
+                    </div>
+                </a>
+                <p>Check Out our Friends at <span style="color:#21D192;">Webloop</span> </p>
+            </div>
+            
+
+        </div>
+
+        
+
+        <!-- Product Display Section -->
+        <div class="col-md-9 my-5">
+            <h3 style="color:#21D192; outline:none;">Products</h3>
+            <div class="row">
+                <!-- Loop through filtered products and generate product cards -->
+                @foreach (var product in filteredProducts.OrderBy(_ => Guid.NewGuid()))
+                {
+                    <div class="col-md-4 mb-3">
+                        <a href="@($"product/details/{product.ProductID}")" class="card" style="text-decoration:none;">
+                            <img src="@product.ProductImageReference" class="card-img-top" alt="Product Image" style="object-fit: cover; height: 200px;">
+                            <div class="card-body">
+                                <h5 class="card-title">@product.ProductName</h5>
+                                <p class="card-text" style="font-weight:500; font-size:16px">@product.Brand</p>
+                                <p class="card-text">$@product.Price</p>
+                                <p class="card-text">@GetCategoryName(product.CategoryID)</p>
+                            </div>
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@code {
+    List<ProductCategory> categories = new List<ProductCategory>();
+    List<Product> products = new List<Product>();
+    List<Product> filteredProducts = new List<Product>();
+    int selectedCategory = -1;
+
+    protected override void OnInitialized()
+    {
+        // Fetch categories and products from the database
+        categories = DalProductCategories.GetProductCategoryInfo();
+        products = DalProducts.GetProductInfo();
+
+        // Initialize filtered products with all products
+        filteredProducts = products;
+    }
+
+    private void SelectCategory(int categoryId)
+    {
+        // Update the selected category and filter products accordingly
+        selectedCategory = categoryId;
+        filteredProducts = products.Where(p => p.CategoryID == categoryId).ToList();
+    }
+
+    private void ShowAllProducts()
+    {
+        // Show all products by resetting the selected category and filtered products
+        selectedCategory = -1;
+        filteredProducts = products;
+    }
+
+    private string GetCategoryName(int categoryId)
+    {
+        var category = categories.FirstOrDefault(c => c.CategoryID == categoryId);
+        return category?.CategoryName ?? "Uncategorized";
+    }
+}

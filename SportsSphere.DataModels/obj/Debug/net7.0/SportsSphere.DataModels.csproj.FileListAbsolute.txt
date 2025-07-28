@@ -1,0 +1,13 @@
+E:\Projects\Blazor\Vp Project\SportsSphere\SportsSphere.DataModels\bin\Debug\net7.0\SportsSphere.DataModels.deps.json
+E:\Projects\Blazor\Vp Project\SportsSphere\SportsSphere.DataModels\bin\Debug\net7.0\SportsSphere.DataModels.dll
+E:\Projects\Blazor\Vp Project\SportsSphere\SportsSphere.DataModels\bin\Debug\net7.0\SportsSphere.DataModels.pdb
+E:\Projects\Blazor\Vp Project\SportsSphere\SportsSphere.DataModels\obj\Debug\net7.0\SportsSphere.DataModels.csproj.AssemblyReference.cache
+E:\Projects\Blazor\Vp Project\SportsSphere\SportsSphere.DataModels\obj\Debug\net7.0\SportsSphere.DataModels.GeneratedMSBuildEditorConfig.editorconfig
+E:\Projects\Blazor\Vp Project\SportsSphere\SportsSphere.DataModels\obj\Debug\net7.0\SportsSphere.DataModels.AssemblyInfoInputs.cache
+E:\Projects\Blazor\Vp Project\SportsSphere\SportsSphere.DataModels\obj\Debug\net7.0\SportsSphere.DataModels.AssemblyInfo.cs
+E:\Projects\Blazor\Vp Project\SportsSphere\SportsSphere.DataModels\obj\Debug\net7.0\SportsSphere.DataModels.csproj.CoreCompileInputs.cache
+E:\Projects\Blazor\Vp Project\SportsSphere\SportsSphere.DataModels\obj\Debug\net7.0\SportsSphere.DataModels.dll
+E:\Projects\Blazor\Vp Project\SportsSphere\SportsSphere.DataModels\obj\Debug\net7.0\refint\SportsSphere.DataModels.dll
+E:\Projects\Blazor\Vp Project\SportsSphere\SportsSphere.DataModels\obj\Debug\net7.0\SportsSphere.DataModels.pdb
+E:\Projects\Blazor\Vp Project\SportsSphere\SportsSphere.DataModels\obj\Debug\net7.0\ref\SportsSphere.DataModels.dll
+E:\Projects\Blazor\Vp Project\SportsSphere\SportsSphere.DataModels\obj\Debug\net7.0\SportsSphere.DataModels.sourcelink.json

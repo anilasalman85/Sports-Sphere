@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Meta tags for character set and viewport -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Title of the webpage -->
+    <title>Your Web Page</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Google Fonts CSS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Custom Styles -->
+    <style>
+        body {
+            font-family: 'Lato', sans-serif;
+            font-family: 'Poppins', sans-serif !important;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        /* Override Bootstrap's default link styles */
+        .navbar-nav li.nav-item a.nav-link {
+            position: relative;
+            text-decoration: none !important; /* Remove underline */
+        }
+
+            /* Style the link */
+            .navbar-nav li.nav-item a.nav-link::before {
+                content: "";
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 0;
+                height: 2px;
+                background-color: #ffffff;
+                transition: width 0.5s ease; /* Set the transition property */
+            }
+
+            /* Increase the width on hover */
+            .navbar-nav li.nav-item a.nav-link:hover::before {
+                width: 100%;
+            }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg" style="background-color: #21D192; padding-left: 15px; padding-right: 15px;">
+        <div class="container-fluid">
+            <!-- Brand Logo and Name -->
+            <img src="https://i.pinimg.com/736x/1e/85/4a/1e854ad1c69174ef45304a37aeb80881.jpg" class="px-3" style="width:70px; border-radius:50%" />
+            <a class="navbar-brand" href="#" style="color: #ffffff;">Sports Sphere</a>
+
+            <!-- Navbar Toggler for Responsive Design -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navbar Links -->
+            <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <!-- Navigation Links -->
+                    <li class="nav-item">
+                        <a class="nav-link active" href="userLogin" style="color: #ffffff;">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#" style="color: #ffffff;">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="cart" style="color: #ffffff;">Cart</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="about" style="color: #ffffff;">About Us</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Your Page Content Goes Here -->
+    <!-- Bootstrap JS Bundle (includes Popper.js) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

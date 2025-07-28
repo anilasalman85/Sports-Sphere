@@ -1,0 +1,142 @@
+﻿@page "/admin"
+
+<h3>AdminData</h3>
+
+<!-- Importing Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+    body {
+        font-family: 'Lato', sans-serif;
+        font-family: 'Poppins', sans-serif !important;
+        font-family: 'Roboto', sans-serif;
+        z-index: -1;
+        background-color: #ffffff;
+        opacity: 1;
+        background-image: repeating-radial-gradient(circle at 0 0, transparent 0, #ffffff 40px), repeating-linear-gradient(#d9ffbb55, #d9ffbb);
+    }
+
+    h3 {
+        color: #21D192;
+    }
+</style>
+
+<div class="container">
+    <!-- EditForm for capturing admin information -->
+    <EditForm Model="admin" OnSubmit="SaveAdmin">
+        <div class="form-group mt-3">
+            <label for="username">Username</label>
+            <!-- Input field for admin username -->
+            <InputText id="username" @bind-Value="admin.Username" class="form-control" />
+        </div>
+
+        <div class="form-group mt-3">
+            <label for="password">Password</label>
+            <!-- Input field for admin password -->
+            <InputText id="password" @bind-Value="admin.Password" type="password" class="form-control" />
+        </div>
+
+        <div class="form-group mt-3">
+            <label for="email">Email</label>
+            <!-- Input field for admin email -->
+            <InputText id="email" @bind-Value="admin.Email" class="form-control" />
+        </div>
+
+        <!-- Submit button for saving admin information -->
+        <button type="submit" class="btn mt-3" style="background-color:#21D192; color:white">Save</button>
+    </EditForm>
+</div>
+
+<!-- Table for displaying admin information -->
+<table class="table table-striped mt-3">
+    <thead class="thead-dark">
+        <tr>
+            <th>Admin Id</th>
+            <th>Username</th>
+            <th>Password</th>
+            <th>Email</th>
+            <th>Delete Admin</th>
+            <th>Update Admin</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Loop through the list of admins to display information in table rows -->
+        @foreach (var item in listAdmin)
+        {
+            <tr>
+                <!-- Display admin information in table cells -->
+                <td>@item.AdminID</td>
+                <td>@item.Username</td>
+                <td>@item.Password</td>
+                <td>@item.Email</td>
+                <!-- Button to delete admin with onclick event -->
+                <td><button class="btn " style="background-color:#21D192; color:white" @onclick="()=>DeleteAdmin(item.AdminID)">Delete</button></td>
+                <!-- Button to update admin with onclick event -->
+                <td><button class="btn " style="background-color:#21D192; color:white" @onclick="()=>LoadAdminForUpdate(item.AdminID)">Update</button></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    // Properties for holding current admin and list of admins
+    Admin admin { get; set; } = new Admin();
+    List<Admin> listAdmin { get; set; } = new List<Admin>();
+
+    // Method called when the component is initialized
+    protected override void OnInitialized()
+    {
+        // Load admin data when the component is initialized
+        LoadData();
+        base.OnInitialized();
+    }
+
+    // Method to save admin information
+    private void SaveAdmin()
+    {
+        // Save admin information using the DalAdmins class
+        DalAdmins.SaveAdminInfo(admin);
+
+        // Reload admin data after saving and clear the form
+        LoadData();
+        admin = new Admin(); // Clear the form after submission
+    }
+
+    // Method to delete admin information by ID
+    private void DeleteAdmin(int id)
+    {
+        // Delete admin information using the DalAdmins class
+        DalAdmins.DeleteAdminInfo(id);
+
+        // Reload admin data after deletion
+        LoadData();
+    }
+
+    // Method to load admin information for updating
+    private void LoadAdminForUpdate(int id)
+    {
+        // Find the admin to update from the list
+        var adminToUpdate = listAdmin.FirstOrDefault(a => a.AdminID == id);
+
+        // If admin is found, populate the form for updating
+        if (adminToUpdate != null)
+        {
+            admin = new Admin
+                {
+                    AdminID = adminToUpdate.AdminID,
+                    Username = adminToUpdate.Username,
+                    Password = adminToUpdate.Password,
+                    Email = adminToUpdate.Email
+                };
+        }
+    }
+
+    // Method to load all admin data
+    private void LoadData()
+    {
+        // Load admin data using the DalAdmins class
+        listAdmin = DalAdmins.GetAdminInfo();
+    }
+}

@@ -1,0 +1,204 @@
+﻿@page "/cart"
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Meta tags and title for the HTML page -->
+    <!-- Links to Google Fonts for Lato, Poppins, and Roboto -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Your Cart</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Custom styles for the shopping cart -->
+    <style>
+        /* Global styles for the entire page */
+
+        /* Styles for the shopping cart table and buttons */
+        .table {
+            background-color: transparent !important;
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            border-radius: 15px;
+        }
+
+        .btn {
+            background-color: #21D192;
+            border-color: #21D192;
+            color: #fff;
+        }
+
+            .btn:hover, .btn:active {
+                background-color: #21D192;
+                border-color: #21D192;
+                color: #fff;
+            }
+
+        /* Styles for table headers and cells */
+        .table th, .table td {
+            background-color: #fff;
+            padding: 15px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        /* Style for quantity input */
+        .quantity-input {
+            width: 50px;
+            padding: 8px;
+            margin-right: 5px;
+        }
+
+        /* Style for the total cart price */
+        .total-price {
+            font-weight: bold;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+
+        /* Header styles */
+        .header {
+            background-image: url("https://th.bing.com/th/id/OIG.OKYEtnRSyn6IB6XyzvYX?w=270&h=270&c=6&r=0&o=5&pid=ImgGn");
+            color: #fff;
+            padding: 60px 0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h2 style="color:black">Cart</h2>
+    </div>
+    <!-- Heading for the shopping cart page -->
+    <h3 class="mt-3">Your Cart</h3>
+
+    @{
+        decimal totalCartPrice = 0; // Initialize the total cart price
+    }
+
+    @if (cartItems != null && cartItems.Any())
+    {
+        <!-- Display cart items in a table if there are items in the cart -->
+        <table class="table">
+            <thead>
+                <tr>
+                    <!-- Table headers for product details -->
+                    <th>Product ID</th>
+                    <th>Product Name</th>
+                    <th>Price</th>
+                   
+                    <th>Total</th>
+                    <th>Delete</th>
+                    <!-- Add other headers based on your model properties -->
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var cartItem in cartItems)
+                {
+                    var product = DalProducts.GetProductDetailsById(cartItem.ProductId);
+
+                    <!-- Display product details in each row -->
+                    <tr>
+                        <td>@product.ProductName</td>
+                        <td><img src="@product.ProductImageReference" alt="Product Image" style="width: 50px; height: auto;"></td>
+                        <td>$@product.Price</td>
+                        
+                        @{
+                            // Calculate the total based on quantity
+                           
+                            decimal itemTotal = product.Price ;
+                        }
+                        <td>$@itemTotal</td>
+
+                        <!-- Add a delete button for each item -->
+                        <td>
+                            <button class="btn btn-danger" @onclick="() => DeleteCartItemAndProduct(cartItem.ProductId)">Delete</button>
+                        </td>
+                        <!-- Add other cells based on your model properties -->
+                    </tr>
+
+                    <!-- Accumulate the total price -->
+                    totalCartPrice += itemTotal;
+                }
+            </tbody>
+        </table>
+
+        <!-- Display the total cart price -->
+        <p class="total-price">Total Cart Price: $@totalCartPrice</p>
+
+        <!-- Button to confirm the order and link to the confirm-order page -->
+        <a class="btn mb-5" href="confirm-order" style="text-decoration:none; background-color:#21D192; color:white;">Confirm</a>
+    }
+    else
+    {
+        <!-- Display a message if the cart is empty -->
+        <p>Your cart is empty.</p>
+    }
+
+    <!-- Add other content or components as needed -->
+    @code {
+        private List<CartItemModel> cartItems;
+        private int userId = 4; // Replace with the actual user ID or retrieve it from your authentication system
+        private CartItemsDal cartItemsDal;
+
+        // Initialize and retrieve cart items when the component is initialized
+        protected override void OnInitialized()
+        {
+            // Create an instance of CartItemsDal
+            cartItemsDal = new CartItemsDal();
+
+            // Retrieve cart items directly as a list of CartItemModel
+            cartItems = cartItemsDal.GetCartItems(userId);
+
+            // Trigger a re-render
+            StateHasChanged();
+        }
+
+        // Method to delete a cart item and corresponding product
+        private void DeleteCartItemAndProduct(int productId)
+        {
+            // Call the DeleteCartItemAndProduct method from the instance of CartItemsDal
+            cartItemsDal.DeleteCartItemByProductId(productId);
+
+            // Refresh the cart items after deletion
+            RefreshCartItems();
+        }
+
+        // Method to update quantity and recalculate total price
+        private void UpdateQuantity(ChangeEventArgs e, int productId, CartItemModel cartItem)
+        {
+            // Parse the input value to an integer
+            if (int.TryParse(e.Value.ToString(), out int newQuantity))
+            {
+                // Update the quantity in the cart or database as needed
+                cartItem.Quantity = newQuantity;
+
+                // Recalculate the total based on the new quantity
+                decimal newTotal = newQuantity * DalProducts.GetProductDetailsById(productId).Price;
+
+                // Update the UI with the new total
+                // (You might need to identify the corresponding HTML element and update its content)
+                Console.WriteLine($"Updated quantity for ProductId {productId}. New total: {newTotal}");
+            }
+            else
+            {
+                // Handle invalid input if needed
+                Console.WriteLine($"Invalid quantity input for ProductId {productId}");
+            }
+        }
+
+        // Method to refresh cart items after deletion
+        private void RefreshCartItems()
+        {
+            // Retrieve cart items after deletion
+            cartItems = cartItemsDal.GetCartItems(userId);
+
+            // Trigger a re-render
+            StateHasChanged();
+        }
+    }
+</body>
+</html>

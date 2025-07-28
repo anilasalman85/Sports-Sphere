@@ -1,0 +1,144 @@
+﻿<!-- SignUp.razor -->
+@page "/signup"
+@inject NavigationManager Navigation
+@layout CustomLayout
+
+<!-- Importing Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+    /* Global styling for the entire page */
+    body {
+        font-family: 'Lato', sans-serif;
+        font-family: 'Poppins', sans-serif !important;
+        font-family: 'Roboto', sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #ffffff;
+        opacity: 1;
+        background-image: repeating-radial-gradient(circle at 0 0, transparent 0, #ffffff 40px), repeating-linear-gradient(#d9ffbb55, #d9ffbb);
+    }
+
+    /* Styling for the center container */
+    .center-container {
+        text-align: center;
+    }
+
+    /* Styling for the signup container */
+    .container {
+        width: 300px;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        background-color: #21D192;
+        display: inline-block;
+    }
+
+    /* Styling for form groups */
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    /* Styling for primary button */
+    . {
+        width: 100%;
+    }
+</style>
+
+<h3 style="color:#21D192;">Sign Up</h3>
+<!-- Signup Form Section -->
+<div class="center-container">
+    <div class="container">
+        <!-- Display error message if any -->
+        @if (!string.IsNullOrEmpty(errorMessage))
+        {
+            <div class="alert alert-danger" role="alert" id="errorAlert">
+                @errorMessage
+            </div>
+
+            <!-- Hide error message after 5 seconds using JavaScript -->
+            <script>
+                setTimeout(function () {
+                    var errorAlert = document.getElementById('errorAlert');
+                    errorAlert.style.display = 'none';
+                }, 5000);
+            </script>
+        }
+
+        <!-- Username Input -->
+        <div class="form-group">
+            <label for="username" style="color:white">Username</label>
+            <InputText id="username" @bind-Value="username" class="form-control" placeholder="Your Name" style="color:#21D192;" />
+        </div>
+
+        <!-- Email Input -->
+        <div class="form-group">
+            <label for="email" style="color:white">Email</label>
+            <InputText id="email" @bind-Value="email" class="form-control" placeholder="example@gmail.com" style="color:#21D192;" />
+        </div>
+
+        <!-- Password Input -->
+        <div class="form-group">
+            <label for="password" style="color:white">Password</label>
+            <InputText id="password" @bind-Value="password" type="password" class="form-control" placeholder="Password" style="color:#21D192;" />
+        </div>
+
+        <!-- Signup Button -->
+        <button type="button" class="btn " style="background-color:white; color:#21D192;" @onclick="SignUp">Sign Up</button>
+    </div>
+</div>
+
+@code {
+    string username { get; set; }
+    string email { get; set; }
+    string password { get; set; }
+    string errorMessage { get; set; }
+
+    // Function to handle user signup
+    private void SignUp()
+    {
+        try
+        {
+            // Check if the username or email already exists in the database
+            var existingUser = DalUsers.GetUserInfo().FirstOrDefault(u => u.Username == username || u.Email == email);
+
+            if (existingUser != null)
+            {
+                errorMessage = "Username or email already exists. Please choose a different one.";
+            }
+            else
+            {
+                // Save user information to the database
+                var newUser = new User
+                    {
+                        Username = username,
+                        Email = email,
+                        Password = password, // In a real scenario, you should hash the password
+                        IsAdmin = false // Assuming a regular user for simplicity
+                    };
+
+                DalUsers.SaveUserInfo(newUser);
+
+                // Redirect to login page after successful signup
+                Navigation.NavigateTo("/userLogin");
+            }
+        }
+        catch (Exception ex)
+        {
+            // Handle any exception, log, or display an error message
+            errorMessage = "An error occurred during signup. Please try again.";
+        }
+    }
+
+    // Function to navigate to login page
+    private void GoToLogin()
+    {
+        Navigation.NavigateTo("/userLogin");
+    }
+}

@@ -1,0 +1,155 @@
+﻿<!-- UserLogin.razor -->
+@page "/userLogin"
+@inject NavigationManager Navigation
+@layout CustomLayout
+
+<!-- Importing Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+    /* Global styling for the entire page */
+    body {
+        font-family: 'Lato', sans-serif;
+        font-family: 'Poppins', sans-serif !important;
+        font-family: 'Roboto', sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #ffffff;
+        opacity: 1;
+        background-image: repeating-radial-gradient(circle at 0 0, transparent 0, #ffffff 40px), repeating-linear-gradient(#d9ffbb55, #d9ffbb);
+    }
+
+    /* Styling for the center container */
+    .center-container {
+        text-align: center;
+    }
+
+    /* Styling for the login container */
+    .container {
+        width: 300px;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        background-color: #21D192;
+        display: inline-block;
+    }
+
+    /* Styling for form groups */
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    /* Styling for primary button */
+    . {
+        width: 100%;
+    }
+
+    /* Styling for secondary button */
+    .btn-secondary {
+        width: 100%;
+        margin-top: 10px;
+        background-color: #ffffff;
+        color: #21D192;
+        border: 1px solid #21D192;
+        transition: color 0.3s, background-color 0.3s;
+    }
+
+        .btn-secondary:hover {
+            background-color: #21D192;
+            color: #ffffff;
+        }
+
+    /* Styling for the create account section */
+    .create-account {
+        font-size: smaller;
+        color: white;
+    }
+
+        .create-account a {
+            color: #ffffff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+            .create-account a:hover {
+                color: #0000ff; /* Blue color on hover */
+            }
+</style>
+<h3 style="color:#21D192;">Log In</h3>
+<!-- Login Form Section -->
+<div class="center-container">
+    <div class="container">
+        <!-- Display error message if any -->
+        @if (!string.IsNullOrEmpty(errorMessage))
+        {
+            <div class="alert alert-danger" role="alert" id="errorAlert">
+                @errorMessage
+            </div>
+
+            <!-- Hide error message after 5 seconds using JavaScript -->
+            <script>
+                setTimeout(function () {
+                    var errorAlert = document.getElementById('errorAlert');
+                    errorAlert.style.display = 'none';
+                }, 5000);
+            </script>
+        }
+
+        <!-- Email Input -->
+        <div class="form-group">
+            <label for="email" style="color:white">Email</label>
+            <InputText id="email" @bind-Value="email" class="form-control" placeholder="example@gmai.com" />
+        </div>
+
+        <!-- Password Input -->
+        <div class="form-group">
+            <label for="password" style="color:white">Password</label>
+            <InputText id="password" @bind-Value="password" type="password" class="form-control" placeholder="password" style="color:#21D192;" />
+        </div>
+
+        <!-- Login Button -->
+        <button type="button" class="btn btn-success" style="background-color:white; color:#21D192;" @onclick="Login">Login</button>
+
+        <!-- Sign Up button -->
+        <div class="create-account">
+            <p class="mt-2">Don't have an Account?</p>
+            <button class="btn btn-success" style="background-color:white; color:#21D192;" type="button" @onclick="GoToSignUp"> Create an Account</button>
+        </div>
+    </div>
+</div>
+
+@code {
+    string email { get; set; }
+    string password { get; set; }
+    string errorMessage { get; set; }
+
+    // Function to handle user login
+    private void Login()
+    {
+        var users = DalUsers.GetUserInfo();
+        var matchingUser = users.FirstOrDefault(u => u.Email == email && u.Password == password);
+
+        if (matchingUser != null)
+        {
+            // User credentials are valid, navigate to home page
+            Navigation.NavigateTo("/");
+        }
+        else
+        {
+            // Display error message for invalid credentials
+            errorMessage = "Invalid credentials. Login failed.";
+        }
+    }
+
+    // Function to navigate to sign-up page
+    private void GoToSignUp()
+    {
+        Navigation.NavigateTo("/signup");
+    }
+}

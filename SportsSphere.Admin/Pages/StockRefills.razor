@@ -1,0 +1,132 @@
+﻿@page "/stockrefills"
+<h3>Stock Refills</h3>
+
+<!-- Importing Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+    body {
+        font-family: 'Lato', sans-serif;
+        font-family: 'Poppins', sans-serif !important;
+        font-family: 'Roboto', sans-serif;
+        z-index: -1;
+        background-color: #ffffff;
+        opacity: 1;
+        background-image: repeating-radial-gradient(circle at 0 0, transparent 0, #ffffff 40px), repeating-linear-gradient(#d9ffbb55, #d9ffbb);
+    }
+
+    h3 {
+        color: #21D192;
+    }
+</style>
+
+<div class="container">
+    <!-- EditForm for capturing stock refill information -->
+    <EditForm Model="stockRefill" OnSubmit="SaveStockRefill">
+        <div class="form-group mt-3">
+            <label for="productID">Product ID</label>
+            <!-- Input field for product ID -->
+            <InputNumber id="productID" @bind-Value="stockRefill.ProductID" class="form-control" />
+        </div>
+
+        <div class="form-group mt-3">
+            <label for="quantityAdded">Quantity Added</label>
+            <!-- Input field for quantity added during stock refill -->
+            <InputNumber id="quantityAdded" @bind-Value="stockRefill.QuantityAdded" class="form-control" />
+        </div>
+
+        <!-- Submit button for saving stock refill information -->
+        <button type="submit" style="background-color:#21D192; color:white" class="btn  mt-3">Save</button>
+    </EditForm>
+</div>
+
+<!-- Table for displaying stock refill information -->
+<table class="table table-striped mt-3">
+    <thead class="thead-dark">
+        <tr>
+            <th>Refill ID</th>
+            <th>Product ID</th>
+            <th>Quantity Added</th>
+            <th>Delete Refill</th>
+            <th>Update Refill</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Loop through the list of stock refills to display information in table rows -->
+        @foreach (var item in listStockRefills)
+        {
+            <tr>
+                <!-- Display stock refill information in table cells -->
+                <td>@item.RefillID</td>
+                <td>@item.ProductID</td>
+                <td>@item.QuantityAdded</td>
+                <!-- Button to delete stock refill with onclick event -->
+                <td><button class="btn " style="background-color:#21D192; color:white" @onclick="()=>DeleteStockRefill(item.RefillID)">Delete</button></td>
+                <!-- Button to update stock refill with onclick event -->
+                <td><button class="btn" style="background-color:#21D192; color:white" @onclick="()=>LoadStockRefillForUpdate(item.RefillID)">Update</button></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    // Properties for holding current stock refill and list of stock refills
+    StockRefill stockRefill { get; set; } = new StockRefill();
+    List<StockRefill> listStockRefills { get; set; } = new List<StockRefill>();
+
+    // Method called when the component is initialized
+    protected override void OnInitialized()
+    {
+        // Load stock refill data when the component is initialized
+        LoadData();
+        base.OnInitialized();
+    }
+
+    // Method to save stock refill information
+    private void SaveStockRefill()
+    {
+        // Save stock refill information using the DalStockRefills class
+        DalStockRefills.SaveStockRefillInfo(stockRefill);
+
+        // Reload stock refill data after saving and clear the form
+        LoadData();
+        stockRefill = new StockRefill(); // Clear the form after submission
+    }
+
+    // Method to delete stock refill information by ID
+    private void DeleteStockRefill(int id)
+    {
+        // Delete stock refill information using the DalStockRefills class
+        DalStockRefills.DeleteStockRefillInfo(id);
+
+        // Reload stock refill data after deletion
+        LoadData();
+    }
+
+    // Method to load stock refill information for updating
+    private void LoadStockRefillForUpdate(int id)
+    {
+        // Find the stock refill to update from the list
+        var stockRefillToUpdate = listStockRefills.FirstOrDefault(s => s.RefillID == id);
+
+        // If stock refill is found, populate the form for updating
+        if (stockRefillToUpdate != null)
+        {
+            stockRefill = new StockRefill
+                {
+                    RefillID = stockRefillToUpdate.RefillID,
+                    ProductID = stockRefillToUpdate.ProductID,
+                    QuantityAdded = stockRefillToUpdate.QuantityAdded
+                };
+        }
+    }
+
+    // Method to load all stock refill data
+    private void LoadData()
+    {
+        // Load stock refill data using the DalStockRefills class
+        listStockRefills = DalStockRefills.GetStockRefillInfo();
+    }
+}

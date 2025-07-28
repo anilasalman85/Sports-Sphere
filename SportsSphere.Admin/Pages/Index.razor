@@ -1,0 +1,179 @@
+﻿@page "/home"
+
+<!-- Importing Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+    body {
+        font-family: 'Lato', sans-serif;
+        font-family: 'Poppins', sans-serif !important;
+        font-family: 'Roboto', sans-serif;
+        z-index: -1;
+        background-color: #ffffff;
+        opacity: 1;
+        background-image: repeating-radial-gradient(circle at 0 0, transparent 0, #ffffff 40px), repeating-linear-gradient(#d9ffbb55, #d9ffbb);
+    }
+
+    h1 {
+        color: #21D192;
+    }
+</style>
+
+<PageTitle>Index</PageTitle>
+
+<h1>Sports Sphere </h1>
+
+Welcome to Admin Panel
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Add your head content, including meta tags, stylesheets, and other head elements -->
+    <!-- Importing Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Lato', sans-serif;
+            font-family: 'Poppins', sans-serif !important;
+            font-family: 'Roboto', sans-serif;
+            z-index: -1;
+            background-color: #ffffff;
+            opacity: 1;
+            background-image: repeating-radial-gradient(circle at 0 0, transparent 0, #ffffff 40px), repeating-linear-gradient(#d9ffbb55, #d9ffbb);
+        }
+
+        a {
+            text-decoration:none;
+            color: #1e1e1e;
+        }
+
+        h1 {
+            color: #21D192;
+        }
+
+        .card-link:hover .card {
+            transform: scale(1.1);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .card-link {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="container mt-5">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
+            <!-- Card 1 -->
+            <div class="col mb-4">
+                <a href="user" class="card-link">
+                    <div class="card" style="width: 18rem;">
+                        <div style="position: relative;">
+                            <img src="https://media.istockphoto.com/id/1416048929/photo/woman-working-on-laptop-online-checking-emails-and-planning-on-the-internet-while-sitting-in.jpg?s=612x612&w=0&k=20&c=mt-Bsap56B_7Lgx1fcLqFVXTeDbIOILVjTdOqrDS54s=" class="card-img-top" alt="Card 1 Image" style="object-fit: cover; height: 200px;">
+                            <!-- Extra text overlay -->
+                            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; color: white;">
+                                <h3 class="card-title" style="color:#1e1e1e;">Users</h3>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">See the Users that are registered on your site.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="col mb-4">
+                <a href="admin" class="card-link">
+                    <div class="card" style="width: 18rem;">
+                        <div style="position: relative;">
+                            <img src="https://media.istockphoto.com/id/1492896561/photo/portrait-of-happy-and-successful-female-programmer-inside-office-at-workplace-worker-smiling.jpg?s=612x612&w=0&k=20&c=KpkuifmGMoQpIJJStngrX7C0J5-R4kzALKw-I0W5vew=" class="card-img-top" alt="Card 2 Image" style="object-fit: cover; height: 200px;">
+                            <!-- Extra text overlay -->
+                            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; color: white;">
+                                <h3 class="card-title" style="color:#1e1e1e;">Admins</h3>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">See the Admins of the site. Only Admins can add more admins.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="col mb-4">
+                <a href="productcategory" class="card-link">
+                    <div class="card" style="width: 18rem;">
+                        <div style="position: relative;">
+                            <img src="https://media.istockphoto.com/id/1451807039/photo/carton-boxes-labelled-as-different-investment-product-categories-on-a-laptop-showing-stock.jpg?s=1024x1024&w=is&k=20&c=x60ZI6FacwbrWpwyqdcBLWxpsWunI5GUTRAEcA1Zyv8=" class="card-img-top" alt="Card 3 Image" style="object-fit: cover; height: 200px;">
+                            <!-- Extra text overlay -->
+                            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; color: white;">
+                                <h3 class="card-title" style="color:#1e1e1e;">Categories</h3>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Check out and Manipulate the Categories.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="col mb-4">
+                <a href="products" class="card-link">
+                    <div class="card" style="width: 18rem;">
+                        <div style="position: relative;">
+                            <img src="https://media.istockphoto.com/id/873550872/photo/colorful-cap-on-blue-shelf-background-fashion-baseball-or-hiphop-hat.jpg?s=612x612&w=0&k=20&c=PDzUla8jEhQsz961Duj5P1PzMTHFLEvZ0hPoo6Xcib0=" class="card-img-top" alt="Card 4 Image" style="object-fit: cover; height: 200px;">
+                            <!-- Extra text overlay -->
+                            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; color: white;">
+                                <h3 class="card-title" style="color:#1e1e1e;">Products</h3>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Check out and Manipulate the Products.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Card 5 -->
+            <div class="col mb-4">
+                <a href="stockrefills" class="card-link">
+                    <div class="card" style="width: 18rem;">
+                        <div style="position: relative;">
+                            <img src="https://media.istockphoto.com/id/1445807136/photo/business-and-stock-exchange-data-on-the-screen.jpg?s=612x612&w=0&k=20&c=t-mpJQkz8uZmQsmKwGwdw9pfRWaU9jcjPwFm-6arm6A=" class="card-img-top" alt="Card 5 Image" style="object-fit: cover; height: 200px;">
+                            <!-- Extra text overlay -->
+                            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; color: white;">
+                                <h3 class="card-title" style="color:white;">Stocks</h3>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Time is ticking, refill your stocks quickly.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex">
+        <div style="display:flex; flex:1;">
+           
+            Made by Aamna Ibrahim, Ayesha Khalid and Mishkat Fatima
+            
+        </div>
+        <div  class="footer" style="font-size:13px">
+            &copy; 2024 Sports Sphere. All Rights Reserved.
+        </div>
+    </div>
+    
+  
+</body>
+</html>
+

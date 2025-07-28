@@ -1,0 +1,178 @@
+﻿@page "/products"
+<h3>Products</h3>
+
+<!-- Importing Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+    body {
+        font-family: 'Lato', sans-serif;
+        font-family: 'Poppins', sans-serif !important;
+        font-family: 'Roboto', sans-serif;
+        z-index: -1;
+        background-color: #ffffff;
+        opacity: 1;
+        background-image: repeating-radial-gradient(circle at 0 0, transparent 0, #ffffff 40px), repeating-linear-gradient(#d9ffbb55, #d9ffbb);
+    }
+
+    h3 {
+        color: #21D192;
+    }
+</style>
+
+<div class="container">
+
+    <!-- EditForm for capturing product information -->
+    <EditForm Model="product" OnSubmit="SaveProduct">
+        <div class="form-group mt-2">
+            <label for="categoryID">Category ID</label>
+            <!-- Input field for product category ID -->
+            <InputNumber id="categoryID" @bind-Value="product.CategoryID" class="form-control" />
+        </div>
+
+        <!-- Input fields for various product details -->
+        <div class="form-group mt-2">
+            <label for="productName">Product Name</label>
+            <InputText id="productName" @bind-Value="product.ProductName" class="form-control" />
+        </div>
+
+        <div class="form-group mt-2">
+            <label for="price">Price</label>
+            <InputNumber id="price" @bind-Value="product.Price" class="form-control" />
+        </div>
+
+        <div class="form-group mt-2">
+            <label for="stockQuantity">Stock Quantity</label>
+            <InputNumber id="stockQuantity" @bind-Value="product.StockQuantity" class="form-control" />
+        </div>
+
+        <div class="form-group mt-2">
+            <label for="productImageReference">Product Image Reference</label>
+            <InputText id="productImageReference" @bind-Value="product.ProductImageReference" class="form-control" />
+        </div>
+
+        <div class="form-group mt-2">
+            <label for="description">Description</label>
+            <InputText id="description" @bind-Value="product.Description" class="form-control" />
+        </div>
+
+        <div class="form-group mt-2">
+            <label for="brand">Brand</label>
+            <InputText id="brand" @bind-Value="product.Brand" class="form-control" />
+        </div>
+
+        <!-- Submit button for saving product information -->
+        <button type="submit" style="background-color:#21D192; color:white" class="btn  mt-3">Save</button>
+    </EditForm>
+
+</div>
+
+<!-- Table for displaying product information -->
+<table class="table table-striped my-4">
+    <thead class="thead-dark">
+        <tr>
+            <th>Product ID</th>
+            <th>Category ID</th>
+            <th>Product Name</th>
+            <th>Price</th>
+            <th>Stock Quantity</th>
+            <th>Product Image</th>
+            <th>Brand</th>
+            <th>Delete Product</th>
+            <th>Update Product</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Loop through the list of products to display information in table rows -->
+        @foreach (var item in listProducts)
+        {
+            <tr>
+                <!-- Display product information in table cells -->
+                <td>@item.ProductID</td>
+                <td>@item.CategoryID</td>
+                <td>@item.ProductName</td>
+                <td>@item.Price</td>
+                <td>@item.StockQuantity</td>
+                <td>
+                    <!-- Display product image if available -->
+                    @if (!string.IsNullOrEmpty(item.ProductImageReference))
+                    {
+                        <img src="@item.ProductImageReference" alt="Product Image" style="max-width: 100px; max-height: 100px; " />
+                    }
+                </td>
+                <td>@item.Brand</td>
+                <!-- Button to delete product with onclick event -->
+                <td><button class="btn " style="background-color:#21D192; color:white" @onclick="()=>DeleteProduct(item.ProductID)">Delete</button></td>
+                <!-- Button to update product with onclick event -->
+                <td><button class="btn " style="background-color:#21D192; color:white" @onclick="()=>LoadProductForUpdate(item.ProductID)">Update</button></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    // Properties for holding current product and list of products
+    Product product { get; set; } = new Product();
+    List<Product> listProducts { get; set; } = new List<Product>();
+
+    // Method called when the component is initialized
+    protected override void OnInitialized()
+    {
+        // Load product data when the component is initialized
+        LoadData();
+        base.OnInitialized();
+    }
+
+    // Method to save product information
+    private void SaveProduct()
+    {
+        // Save product information using the DalProducts class
+        DalProducts.SaveProductInfo(product);
+
+        // Reload product data after saving and clear the form
+        LoadData();
+        product = new Product(); // Clear the form after submission
+    }
+
+    // Method to delete product information by ID
+    private void DeleteProduct(int id)
+    {
+        // Delete product information using the DalProducts class
+        DalProducts.DeleteProductInfo(id);
+
+        // Reload product data after deletion
+        LoadData();
+    }
+
+    // Method to load product information for updating
+    private void LoadProductForUpdate(int id)
+    {
+        // Find the product to update from the list
+        var productToUpdate = listProducts.FirstOrDefault(p => p.ProductID == id);
+
+        // If product is found, populate the form for updating
+        if (productToUpdate != null)
+        {
+            product = new Product
+                {
+                    ProductID = productToUpdate.ProductID,
+                    CategoryID = productToUpdate.CategoryID,
+                    ProductName = productToUpdate.ProductName,
+                    Price = productToUpdate.Price,
+                    StockQuantity = productToUpdate.StockQuantity,
+                    ProductImageReference = productToUpdate.ProductImageReference,
+                    Description = productToUpdate.Description,
+                    Brand = productToUpdate.Brand
+                };
+        }
+    }
+
+    // Method to load all product data
+    private void LoadData()
+    {
+        // Load product data using the DalProducts class
+        listProducts = DalProducts.GetProductInfo();
+    }
+}

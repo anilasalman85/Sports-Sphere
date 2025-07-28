@@ -1,0 +1,206 @@
+﻿@page "/about"
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>About Us</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:wght@400;900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:wght@400;500;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* Global styles for the entire page */
+
+        body {
+            font-family: 'Lato', sans-serif;
+            /* Default font */
+            font-family: 'Poppins', sans-serif !important;
+            /* Override for specific elements */
+            font-family: 'Roboto', sans-serif;
+            z-index: -1;
+            background-color: #ffffff;
+            opacity: 1;
+            /* Background gradient */
+            background-image: repeating-radial-gradient(circle at 0 0, transparent 0, #ffffff 40px), repeating-linear-gradient(#d9ffbb55, #d9ffbb);
+        }
+
+        .form-label a:hover {
+            color: blue;
+        }
+
+        /* Header styles */
+        .header {
+            background-image: url("https://th.bing.com/th/id/OIG.OKYEtnRSyn6IB6XyzvYX?w=270&h=270&c=6&r=0&o=5&pid=ImgGn");
+            color: #fff;
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .banner {
+            background-image: url("https://th.bing.com/th/id/OIG.BD2j3FOtok1Zlg1Z6Gkp?w=1024&h=1024&rs=1&pid=ImgDetMain");
+            color: #fff;
+            padding: 120px 0;
+            text-align: center;
+        }
+
+        /* About section styles */
+        .about-section {
+            padding: 60px 0;
+        }
+
+        /* Image styles in the about section */
+        .about-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        /* Contact section styles */
+        .contact-section {
+            padding: 60px 0;
+            background: #21D192;
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(130, 199, 75, 0.22);
+        }
+
+        .email-link {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .email-link:hover {
+            color: your_desired_hover_color;
+            /* Change this to the color you want on hover */
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header section -->
+    <div class="header">
+        <h2 style="color:black">About Us</h2>
+    </div>
+
+    <!-- Main content container -->
+    <div class="container">
+        <!-- About section with two columns -->
+        <div class="about-section container">
+            <div class="row">
+                <div class="col-md-6">
+                    <!-- Welcome message and introduction to Sports Sphere -->
+                    <h1 style="style=" color:#21D192;">Mubbashir Hasan and Ali</h1>
+                    <div class="d-flex align-items-center mb-4">
+                        <img src="https://i.pinimg.com/736x/1e/85/4a/1e854ad1c69174ef45304a37aeb80881.jpg" class="px-3"
+                            style="width:100px; border-radius:50%;" />
+
+                        <h2>Welcome to <span style="color:#21D192;">Sports Sphere</span></h2>
+                    </div>
+
+                    <p>
+                        Welcome to Sports Sphere, where passion meets performance! Sports Sphere is not just an
+                        e-commerce platform; it's a celebration of the athletic spirit. With a shared love for sports
+                        and a vision to create a hub for enthusiasts, From cutting-edge gear to stylish apparel, Sports
+                        Sphere is designed to cater to the needs of athletes, fitness enthusiasts, and sports
+                        aficionados alike.
+                    </p>
+
+
+
+                    <p>
+                        At Sports Sphere, we believe in the transformative power of sports, and our mission is to
+                        empower individuals to pursue their athletic goals with confidence. Whether you're a seasoned
+                        professional or just starting your fitness journey, our carefully curated selection of products
+                        ensures that you have access to the best tools to elevate your performance.
+
+                        Join us at Sports Sphere and become a part of a community that shares your love for sports and
+                        commitment to a healthy, active lifestyle. As we continue to grow and evolve, Mubbashir and
+                        Hasan are dedicated to maintaining the core values that inspired the inception of Sports Sphere
+                        – authenticity, innovation, and a passion for all things sports. Welcome to a world where sports
+                        enthusiasts come together – welcome to Sports Sphere!
+                    </p>
+                </div>
+
+                <div class="col-md-6">
+                    <!-- Contact section with contact form -->
+                    <div class="contact-section container p-3">
+                        <h2 style="color:white">Contact Us</h2>
+                        <p style="color:white">If you have any questions or want to give feedback, feel free to contact
+                            us:</p>
+
+                        <!-- Contact Form -->
+                        <form>
+                            <!-- Form fields for name, email, and message -->
+                            <div class="mb-3">
+                                <label for="name" class="form-label" style="color:white">Your Name</label>
+                                <input type="text" class="form-control" id="name" placeholder="Name">
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label" style="color:white">Your Email</label>
+                                <input type="email" class="form-control" id="email" placeholder="email@example.com">
+                            </div>
+                            <div class="mb-3">
+                                <label for="message" class="form-label" style="color:white">Your Message</label>
+                                <textarea class="form-control" id="message" rows="4"
+                                    placeholder="Type your message here..."></textarea>
+                            </div>
+                            <!-- Button to submit the form and trigger the modal -->
+                            <button type="button" class="btn" style="background-color:white; color:#21D192;"
+                                onclick="openMessageSentModal()">Send Message</button>
+
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="banner"></div>
+
+
+
+    <!-- Message Sent Modal -->
+    <div class="modal fade" id="messageSentModal" tabindex="-1" aria-labelledby="messageSentModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <img src="https://i.pinimg.com/736x/1e/85/4a/1e854ad1c69174ef45304a37aeb80881.jpg" class="px-3"
+                        style="width:70px; border-radius:50%" />
+
+                    <h5 class="modal-title" id="messageSentModalLabel">Message Sent</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Your message has been sent successfully. Thank you!
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle (includes Popper.js) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- JavaScript code to open the modal -->
+    <script>
+        // Function to open the "Message Sent" modal
+        function openMessageSentModal() {
+            var messageSentModal = new bootstrap.Modal(document.getElementById('messageSentModal'));
+            messageSentModal.show();
+        }
+    </script>
+</body>
+
+</html>

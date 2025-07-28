@@ -1,0 +1,143 @@
+﻿@page "/user"
+
+<h3>UserData</h3>
+
+<!-- Importing Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+    body {
+        font-family: 'Lato', sans-serif;
+        font-family: 'Poppins', sans-serif !important;
+        font-family: 'Roboto', sans-serif;
+        z-index: -1;
+        background-color: #ffffff;
+        opacity: 1;
+        background-image: repeating-radial-gradient(circle at 0 0, transparent 0, #ffffff 40px), repeating-linear-gradient(#d9ffbb55, #d9ffbb);
+    }
+
+    h3{
+        color: #21D192;
+    }
+</style>
+
+<div class="container">
+    <!-- EditForm for capturing user information -->
+    <EditForm Model="user" OnSubmit="SaveUser">
+        <div class="form-group mt-3">
+            <label for="username">Username</label>
+            <!-- Input field for user's username -->
+            <InputText id="username" @bind-Value="user.Username" class="form-control" />
+        </div>
+
+        <div class="form-group mt-3">
+            <label for="password">Password</label>
+            <!-- Input field for user's password with password type -->
+            <InputText id="password" @bind-Value="user.Password" type="password" class="form-control" />
+        </div>
+
+        <div class="form-group mt-3">
+            <label for="email">Email</label>
+            <!-- Input field for user's email -->
+            <InputText id="email" @bind-Value="user.Email" class="form-control" />
+        </div>
+
+        <!-- Submit button for saving user information -->
+        <button type="submit" style="background-color:#21D192; color:white" class="btn mt-3">Save</button>
+    </EditForm>
+</div>
+
+<!-- Table for displaying user information -->
+<table class="table table-striped mt-3">
+    <thead class="thead-dark">
+        <tr>
+            <th>User Id</th>
+            <th>Username</th>
+            <th>Password</th>
+            <th>Email</th>
+            <th>Delete User</th>
+            <th>Update User</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Loop through the list of users to display information in table rows -->
+        @foreach (var item in listUser)
+        {
+            <tr>
+                <!-- Display user information in table cells -->
+                <td>@item.UserID</td>
+                <td>@item.Username</td>
+                <td>@item.Password</td>
+                <td>@item.Email</td>
+                <!-- Button to delete user with onclick event -->
+                <td><button class="btn " style="background-color:#21D192; color:white" @onclick="()=>DeleteUser(item.UserID)">Delete</button></td>
+                <!-- Button to update user with onclick event -->
+                <td><button class="btn " style="background-color:#21D192; color:white" @onclick="()=>LoadUserForUpdate(item.UserID)">Update</button></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    // Properties for holding current user and list of users
+    User user { get; set; } = new User();
+    List<User> listUser { get; set; } = new List<User>();
+
+    // Method called when the component is initialized
+    protected override void OnInitialized()
+    {
+        // Load user data when the component is initialized
+        LoadData();
+        base.OnInitialized();
+    }
+
+    // Method to save user information
+    private void SaveUser()
+    {
+        // Save user information using the DalUsers class
+        DalUsers.SaveUserInfo(user);
+
+        // Reload user data after saving and clear the form
+        LoadData();
+        user = new User(); // Clear the form after submission
+    }
+
+    // Method to delete user information by ID
+    private void DeleteUser(int id)
+    {
+        // Delete user information using the DalUsers class
+        DalUsers.DeleteUserInfo(id);
+
+        // Reload user data after deletion
+        LoadData();
+    }
+
+    // Method to load user information for updating
+    private void LoadUserForUpdate(int id)
+    {
+        // Find the user to update from the list
+        var userToUpdate = listUser.FirstOrDefault(u => u.UserID == id);
+
+        // If user is found, populate the form for updating
+        if (userToUpdate != null)
+        {
+            user = new User
+                {
+                    UserID = userToUpdate.UserID,
+                    Username = userToUpdate.Username,
+                    Password = userToUpdate.Password,
+                    Email = userToUpdate.Email,
+                    IsAdmin = userToUpdate.IsAdmin
+                };
+        }
+    }
+
+    // Method to load all user data
+    private void LoadData()
+    {
+        // Load user data using the DalUsers class
+        listUser = DalUsers.GetUserInfo();
+    }
+}

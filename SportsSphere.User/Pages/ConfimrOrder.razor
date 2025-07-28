@@ -1,0 +1,147 @@
+﻿@page "/confirm-order"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Meta tags and title for the HTML page -->
+    <!-- Link to Bootstrap 4.5.2 CSS -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Confirm Order</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+WyLsC76RZMz9FNPExFNFy9S9kW2t1fl5a" crossorigin="anonymous">
+</head>
+<body>
+    <style>
+        .header {
+            background-image: url("https://th.bing.com/th/id/OIG.OKYEtnRSyn6IB6XyzvYX?w=270&h=270&c=6&r=0&o=5&pid=ImgGn");
+            color: #fff;
+            padding: 60px 0;
+            text-align: center;
+        }
+    </style>
+    <div class="header">
+        <h2 style="color:black">Confirm Order</h2>
+    </div>
+    <!-- Container for the confirmation order content -->
+    <div class="container mt-5">
+        <h3>Confirm Order</h3>
+
+        <!-- Address Section -->
+        <div class="card mt-4">
+            <div class="card-header">
+                Address
+            </div>
+            <div class="card-body">
+                <!-- Address form for the user to enter their details -->
+                <form id="orderForm">
+                    <div class="form-group">
+                        <label for="fullName">Full Name</label>
+                        <input type="text" class="form-control" id="fullName" placeholder="Enter your full name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <textarea class="form-control" id="address" rows="3" placeholder="Enter your address" required></textarea>
+                    </div>
+
+                    <!-- Show on Map Button -->
+                    <button type="button" style="background-color:#21D192; color:white;" class="btn  mt-3" onclick="showOnMap()">Show on Map</button>
+
+                    <!-- Google Maps Section -->
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            Google Maps
+                        </div>
+                        <div class="card-body">
+                            <!-- Embed Google Maps iframe below for location visualization -->
+                            <iframe id="googleMap" width="100%" height="400" frameborder="0" style="border: 0"
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3152.4416358676514!2d-122.08373968473889!3d37.42214717983614!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808f7e4f8e16820d%3A0xb7f8e69f27d184f!2sGolden%20Gate%20Bridge!5e0!3m2!1sen!2sus!4v1636410251283!5m2!1sen!2sus">
+                            </iframe>
+                        </div>
+                    </div>
+
+                    <!-- Payment Method Section -->
+                    <h5 class="mt-4">Payment Method</h5>
+                    <!-- Radio buttons for selecting payment method -->
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="paymentMethod" id="creditCard" checked style="background-color:#21D192;">
+                        <label class="form-check-label" for="creditCard">
+                            Cash on Delivery
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="paymentMethod" id="paypal" style="background-color:#21D192;">
+                        <label class="form-check-label" for="paypal">
+                            PayPal
+                        </label>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="button" style="background-color:#21D192; color:white" class="btn  mt-3" onclick="openMessageSentModal()">Place Order</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Message Sent Modal -->
+    <div class="modal fade" id="messageSentModal" tabindex="-1" aria-labelledby="messageSentModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <img src="https://i.pinimg.com/736x/1e/85/4a/1e854ad1c69174ef45304a37aeb80881.jpg" class="px-3" style="width:70px; border-radius:50%" />
+                    <h5 class="modal-title" id="messageSentModalLabel">Order Placed</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Your order has been placed successfully. Thank you!
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PayPal Coming Soon Modal -->
+    <div class="modal fade" id="paypalComingSoonModal" tabindex="-1" aria-labelledby="paypalComingSoonModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <img src="https://i.pinimg.com/736x/1e/85/4a/1e854ad1c69174ef45304a37aeb80881.jpg" class="px-3" style="width:70px; border-radius:50%" />
+
+                    <h5 class="modal-title" id="paypalComingSoonModalLabel">Coming Soon</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    This feature is coming soon. Stay tuned for updates!
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and Popper.js (required for Bootstrap) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+WyLsC76RZMz9FNPExFNFy9S9kW2t1fl5a" crossorigin="anonymous"></script>
+
+    <script>
+        function showOnMap() {
+            // Get the address from the input field
+            var address = document.getElementById('address').value;
+
+            // Update the Google Maps iframe URL with the provided address
+            document.getElementById('googleMap').src = 'https://www.google.com/maps/embed?q=' + encodeURIComponent(address);
+        }
+
+        // Function to open the "Message Sent" modal
+        function openMessageSentModal() {
+            var messageSentModal = new bootstrap.Modal(document.getElementById('messageSentModal'));
+            messageSentModal.show();
+        }
+
+        // Function to open the "PayPal Coming Soon" modal
+        function openPayPalComingSoonModal() {
+            var paypalComingSoonModal = new bootstrap.Modal(document.getElementById('paypalComingSoonModal'));
+            paypalComingSoonModal.show();
+        }
+
+        // Event listener for the PayPal radio button
+        document.getElementById('paypal').addEventListener('click', openPayPalComingSoonModal);
+    </script>
+</body>
+</html>
+

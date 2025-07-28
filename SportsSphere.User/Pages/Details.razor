@@ -1,0 +1,190 @@
+﻿<!-- ProductDetails.razor -->
+@page "/product/details/{productId:int}"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+
+<!-- Importing Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+    /* Styling for the page */
+    body {
+        font-family: 'Lato', sans-serif; /* Specify font families */
+        font-family: 'Poppins', sans-serif !important;
+        font-family: 'Roboto', sans-serif;
+        z-index: -1;
+        background-color: #ffffff;
+        opacity: 1;
+        /* Background image with gradients */
+        background-image: repeating-radial-gradient(circle at 0 0, transparent 0, #ffffff 40px), repeating-linear-gradient(#d9ffbb55, #d9ffbb);
+    }
+
+    .list-group-item.active {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+        .list-group-item.active a {
+            color: #fff;
+        }
+
+    .card {
+        overflow: hidden;
+        transition: transform 0.3s ease-in-out;
+    }
+
+        .card img {
+            width: 100%;
+            height: auto;
+        }
+
+        .card:hover {
+            transform: scale(1.1);
+        }
+
+            /* Changes for recommended products */
+            .card:hover .card-title,
+            .card:hover .card-text {
+                color: #21D192;
+            }
+
+    . {
+        background-color: #21D192;
+        border-color: #21D192;
+    }
+
+        .:hover {
+            background-color: #21D192;
+            border-color: #21D192;
+        }
+
+        /* Header styles */
+        .header {
+            background-image: url("https://th.bing.com/th/id/OIG.OKYEtnRSyn6IB6XyzvYX?w=270&h=270&c=6&r=0&o=5&pid=ImgGn");
+            color: #fff;
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .banner{
+            background-image: url("https://th.bing.com/th/id/OIG.AADZfITcJKIqu791vjo9?w=1024&h=1024&rs=1&pid=ImgDetMain");
+            color: #fff;
+            padding: 220px 0;
+            text-align: center;
+        }
+</style>
+
+<div class="header">
+    <h2 style="color:black">Product Details</h2>
+</div>
+
+<!-- Heading for the page -->
+<h3 class="m-5" style="color: #21D192;">Product Details</h3>
+
+<!-- Checking if product details are available -->
+@if (product != null)
+{
+    <!-- Container for product details -->
+    <div class="container mb-5">
+        <!-- Two-column layout for product image and details -->
+        <div class="row">
+            <div class="col-md-6">
+                <!-- Displaying product image -->
+                <img src="@product.ProductImageReference" alt="Product Image" style="max-width: 100%;">
+            </div>
+            <div class="col-md-6">
+                <!-- Displaying product details -->
+                <h4 style="color: #21D192;" class="mt-3">@product.ProductName</h4>
+                <p><b>Brand: </b>@product.Brand</p>
+                <p><b>Description: </b>@product.Description</p>
+                <p><b>Price: </b>$@product.Price</p>
+                <p><b>Stock Quantity: </b>@product.StockQuantity</p>
+                <p><b>Category: </b>@GetCategoryName(product.CategoryID)</p>
+
+                <!-- Buttons for adding to cart and showing cart -->
+                <button class="btn " style="background-color:#21D192; color:white;" @onclick="AddToCart">Add to Cart</button>
+                <button class="btn " style="background-color:#21D192; color:white;" @onclick="ShowCart">Show Cart</button>
+            </div>
+        </div>
+
+        <div class="banner"></div>
+        <!-- Section for recommended products -->
+        <div class="row mt-5">
+            <div class="col-md-12">
+                <h4 style="color: #21D192;">Recommended Products</h4>
+            </div>
+
+            <!-- Loop through recommended products -->
+            @foreach (var recommendedProduct in GetRecommendedProducts(product.CategoryID).OrderBy(_ => Guid.NewGuid()).Take(3))
+            {
+                <!-- Display recommended product as a card -->
+                <div class="col-md-4 mb-3">
+                    <a href="@($"product/details2/{recommendedProduct.ProductID}")" class="card" style="text-decoration:none;">
+                        <img src="@recommendedProduct.ProductImageReference" class="card-img-top" alt="Product Image" style="object-fit: cover; height: 200px;">
+                        <div class="card-body">
+                            <h5 class="card-title">@recommendedProduct.ProductName</h5>
+                            <p class="card-text" style="font-weight:500; font-size:16px">@recommendedProduct.Brand</p>
+                            <p class="card-text">$@recommendedProduct.Price</p>
+                            <p class="card-text">@GetCategoryName(recommendedProduct.CategoryID)</p>
+                        </div>
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+}
+else
+{
+    <!-- Display loading message if product details are not available -->
+    <p>Loading...</p>
+}
+
+@code {
+    [Parameter] public int productId { get; set; }
+    private Product product;
+
+    private List<int> cartItems = new List<int>();
+
+    protected override void OnInitialized()
+    {
+        // Load product details when the component is initialized
+        LoadData();
+    }
+
+    private void LoadData()
+    {
+        // Retrieve product details based on the provided product ID
+        product = DalProducts.GetProductDetailsById(productId);
+    }
+
+    private void AddToCart()
+    {
+        // Add the current product to the user's cart
+        int userId = 4; // Replace with actual user id after implementing user authentication
+        CartItemsDal cartItemsDal = new CartItemsDal();
+        cartItemsDal.AddToCart(productId); // Corrected method call
+                                           // Display an alert using JavaScript
+        JSRuntime.InvokeVoidAsync("alert", "Product added to cart!");
+    }
+
+    private void ShowCart()
+    {
+        // Navigate to the cart page
+        NavigationManager.NavigateTo("/cart");
+    }
+
+    private IEnumerable<Product> GetRecommendedProducts(int categoryId)
+    {
+        // Retrieve a list of recommended products based on the category of the current product
+        return DalProducts.GetProductsInCategory(categoryId).Where(p => p.ProductID != productId);
+    }
+
+    private string GetCategoryName(int categoryId)
+    {
+        // Retrieve the name of a category by its ID
+        var category = DalProductCategories.GetProductCategoryInfo().FirstOrDefault(c => c.CategoryID == categoryId);
+        return category?.CategoryName ?? "Uncategorized";
+    }
+}
